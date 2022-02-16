@@ -1,6 +1,10 @@
-function MyArray() {
+function MyArray(...values) {
   this.array = {};
   this.length = 0;
+
+  if(values.length > 0) {
+    this.push(...values);
+  }
 }
 
 MyArray.isMyArray = (value) => value instanceof MyArray;
@@ -78,8 +82,9 @@ MyArray.prototype = Object.assign(MyArray.prototype, methodsPrototype);
 // // expected output: Array ["ant", "bison", "camel", "duck", "elephant"]
 
 
-const arr = new MyArray();
-arr.push('ангел', 'клоун', 'мандарин', 'хирург');
+// const arr = new MyArray('ангел', 'клоун', 'мандарин', 'хирург');
+// console.log(arr);
+// arr.push();
 // console.log(arr);
 // console.log(arr.pop());
 // console.log(arr);
@@ -110,8 +115,22 @@ arr.push('ангел', 'клоун', 'мандарин', 'хирург');
 // console.log(arr.reverse());
 // console.log(arr);
 
-arr.forEach((element, index, array) => {
-  element = 'a';
-  console.log(element);
-});
-console.log(arr);
+// arr.forEach((element, index, array) => {
+//   console.log(element);
+//   array[index] = 'a';
+// });
+// console.log(arr);
+
+
+// const arr1 = new Array(1, 4, 9);
+// const roots = arr1.map(Math.sqrt);
+// console.log(roots);
+
+
+// const doubles = arr1.map((element) => element * 2);
+// console.log(doubles);
+
+const myFish = new MyArray('angel', 'clown', 'mandarin', 'sturgeon');
+const removed = myFish.splice(2)
+console.log(myFish);
+console.log(removed);

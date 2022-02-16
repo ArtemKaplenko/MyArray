@@ -50,9 +50,9 @@ const methodsPrototype = {
   },
 
 
-  push: function () {
-    for (let i = 0; i < arguments.length; i++) {
-      this.array[this.length] = arguments[i];
+  push: function (...elements) {
+    for (let i = 0; i < elements.length; i++) {
+      this.array[this.length] = elements[i];
       this.length += 1;
     }
   },
@@ -151,8 +151,54 @@ const methodsPrototype = {
 
 
   forEach: function (callback) {
-    for (const index in this.array) {
-      callback(this.array[index], index, this);
+    for (let index in this.array) {
+      callback(this.array[index], index, this.array);
     }
   },
+
+
+  map: function (callback) {
+    const newArr = new MyArray();
+    for (let index in this.array) {
+      newArr.push(callback(this.array[index], index, this.array));
+    }
+    return newArr;
+  },
+
+
+  splice: function (start, deleteCount, ...itemN) {
+    if(start > this.length) {
+      start = this.length;
+    } else if(start < 0) {
+      start = this.length + start;
+    }
+
+    const tmpArr = new MyArray();
+    for(let i = 0; i < start; i++) {
+      tmpArr.push(this.array[i]);
+    }
+
+    if(itemN.length > 0) {
+      for(let i = 0; i < itemN.length; i++) {
+        tmpArr.push(itemN[i]);
+      }
+    }
+
+    if(deleteCount === undefined) {
+      deleteCount = this.length - start;
+    }
+
+    for(let i = start + deleteCount; i < this.length; i++) {
+      tmpArr.push(this.array[i]);
+    }
+
+    const resultArr = new MyArray();
+    for(let i = start; i < start + deleteCount; i++) {
+      resultArr.push(this.array[i]);
+    }
+
+    this.array = tmpArr.array;
+    this.length = tmpArr.length;
+    return resultArr;
+  }
 };
